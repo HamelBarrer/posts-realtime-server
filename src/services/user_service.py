@@ -5,6 +5,28 @@ from ..schemas import user_schema
 from ..utils import hash
 
 
+async def read_user_by_account(account: str) -> user_schema.User | None:
+    prisma = Prisma()
+    await prisma.connect()
+
+    data = await prisma.user.find_first(
+        where={
+            'OR': [
+                {
+                    'email': account
+                },
+                {
+                    'username': account
+                }
+            ]
+        }
+    )
+
+    await prisma.disconnect()
+
+    return data
+
+
 async def read_user(user_id: int) -> user_schema.User | None:
     prisma = Prisma()
     await prisma.connect()
