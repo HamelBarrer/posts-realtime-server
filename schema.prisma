@@ -1,0 +1,20 @@
+// database
+datasource db {
+    provider = "sqlite"
+    url      = "file:database.db"
+}
+
+// generator
+generator client {
+    provider             = "prisma-client-py"
+    recursive_type_depth = 5
+}
+
+model User {
+    userId    Int      @id @default(autoincrement())
+    email     String   @unique
+    username  String   @unique
+    password  String
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+}

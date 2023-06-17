@@ -1,8 +1,7 @@
 from fastapi import FastAPI
 
+from .controllers import user_controller
+
 app = FastAPI()
 
-
-@app.get('/')
-async def index():
-    return {'message': 'hello world'}
+app.include_router(user_controller.router)
