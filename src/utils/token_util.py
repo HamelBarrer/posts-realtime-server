@@ -1,4 +1,5 @@
 from datetime import datetime, timedelta
+from fastapi import HTTPException
 
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from jose import JWTError, jwt
@@ -17,9 +18,12 @@ def creation_token(data: dict):
 
 
 def validate_token(token: str):
-    payload = jwt.decode(
-        token,
-        config.SECRET_KEY,
-        algorithms=[config.ALGORITHM]
-    )
-    return payload.get('user_id')
+    try:
+        payload = jwt.decode(
+            token,
+            config.SECRET_KEY,
+            algorithms=[config.ALGORITHM]
+        )
+        return payload.get('user_id')
+    except JWTError:
+        raise HTTPException(status_code=401, detail='Token invalid')
