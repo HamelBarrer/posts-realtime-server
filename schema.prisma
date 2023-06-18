@@ -17,4 +17,13 @@ model User {
     password  String
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
+    Posts     Posts[]
+}
+
+model Posts {
+    post_id     Int     @id @default(autoincrement())
+    title       String
+    description String?
+    user        User    @relation(fields: [user_id], references: [userId])
+    user_id     Int
 }
