@@ -1,3 +1,4 @@
+from typing import List
 from prisma import Prisma
 
 from ..schemas import posts_schema
@@ -21,7 +22,7 @@ async def read_post(post_id: int) -> posts_schema.Post | None:
     return data
 
 
-async def read_posts() -> posts_schema.Post | None:
+async def read_posts() -> List[posts_schema.Post] | None:
     prisma = Prisma()
     await prisma.connect()
 
